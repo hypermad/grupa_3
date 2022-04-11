@@ -16,7 +16,7 @@ def put_user():
     message = json.loads(request.data)
     user_name = message.get("user_name")
     email_address = message.get("email_address")
-    if not user_name or not user_name:
+    if not user_name or not email_address:
         return Response(status=500, response=json.dumps({"message": "user_name or email_address is missing"}))
     if len(user_name) < 1 or len(user_name) > 50:
         return Response(status=500, response=json.dumps(
@@ -27,8 +27,6 @@ def put_user():
 
 @app.route("/list_users", methods=["GET"])
 def list_users():
-    response = listeaza_toti_utilizatorii_flask()
-    print(response)
     return Response(status=200, response=json.dumps(listeaza_toti_utilizatorii_flask()))
 
 
@@ -36,7 +34,9 @@ def list_users():
 def delete_user(user_id):
     status, message = sterge_un_utilizator_flask(user_id)
     return Response(status=status, response=json.dumps({"message": message}))
-
+    # a doua varianta
+    # response = sterge_un_utilizator_flask(user_id)
+    # return response
 
 if __name__ == "__main__":
     app.run()
