@@ -37,29 +37,6 @@ def adauga_o_comanda_flask(order_name, order_quantity):
     return id_comanda
 
 
-def modifica_comanda():
-    datele = citeste_datele_din_baza_de_date()
-    identificator_de_sters = input("Introduceți identificatorul comenzii care se modifica: ")
-    while True:
-        actiune = input(
-            "Alegeti actiunea ('a' - adaugare produs; 'm ' - modificare cantitate; 's'-sterge produs, 'e'-exit \n")
-        detalii_comanda = datele["comenzi"][identificator_de_sters]["detalii_comanda"]
-        if actiune == 'a':
-            add_prod = input("Introduceti produsul:")
-            add_cant = input("Introduceti cantitatea:")
-            detalii_comanda[add_prod] = add_cant
-        elif actiune == 'm':
-            add_prod = input("Introduceti produsul:")
-            add_cant_noua = input("Introduceti cantitatea noua la acest produs")
-            detalii_comanda[add_prod] = add_cant_noua
-        elif actiune == 's':
-            sterge_prod = input("Stergeti produsul:")
-            detalii_comanda.pop(sterge_prod)
-        else:
-            print("Nu ati ales nici o actiune!")
-            break
-
-
 def listeaza_toate_comenzile_flask():
     datele = citeste_datele_din_baza_de_date()
     comenzi = datele.get('comenzi')
