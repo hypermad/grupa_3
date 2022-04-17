@@ -101,7 +101,7 @@ def validate_request_body(name, second_parameter):
         return Response(status=500, response=json.dumps({"message": f"{name} or {second_parameter} is missing"}))
     if len(name) < 1 or len(name) > 50:
         return Response(status=500, response=json.dumps(
-            {"message": "user_name must be longer than 1 character and less than 50 characters"}))
+            {"message": f"{name} must be longer than 1 character and less than 50 characters"}))
 
 
 if __name__ == "__main__":
