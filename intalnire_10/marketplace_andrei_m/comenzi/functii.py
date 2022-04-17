@@ -10,32 +10,31 @@ Comenzile ar trebui sa aiba structura:
 
 """
 from datetime import datetime
-from pprint import pprint
 from pytz import country_timezones, timezone
 
 from baza_de_date.functii import citeste_datele_din_baza_de_date, scrie_datele_in_baza_de_date
 from common.utils import genereaza_id, sterge
 
 
-def adauga_o_comanda():
-    detalii_comanda = {}
-    print("Introduceti produsele din comanda. Pentru a termina, introduceti 'stop':\n")
-    while True:
-        id_produs = input(" Produsul: ")
-        if id_produs == "stop":
-            break
-        else:
-            CantitateProdus = input(" Cantitatea: ")
-            detalii_comanda[id_produs] = CantitateProdus
+def listeaza_comanda_flask(id_comanda):
+    datele = citeste_datele_din_baza_de_date()
+    if datele["comenzi"].get(id_comanda):
+        return 200, datele["comenzi"].get(id_comanda)
+    else:
+        return 404, f"Comanda {id_comanda} nu se afla in baza de date"
 
-    id_comanda = genereaza_id(detalii_comanda)
+
+def adauga_o_comanda_flask(order_name, order_quantity):
+    id_comanda = genereaza_id({order_name: order_quantity})
     data_inregistrare = datetime.now(tz=timezone(country_timezones.get("RO")[0]))
     datele = citeste_datele_din_baza_de_date()
     datele["comenzi"][id_comanda] = {
-        "detalii_comanda": detalii_comanda,
+        "order_name": order_name,
+        "order_quantity": order_quantity,
         "data_inregistrare": data_inregistrare.isoformat()
     }
     scrie_datele_in_baza_de_date(datele)
+    return id_comanda
 
 
 def modifica_comanda():
@@ -61,22 +60,14 @@ def modifica_comanda():
             break
 
 
-def listeaza_toate_comenzile():
-    """
-    Functia trebuie sa afiseze toate comenzile prezente in baza de date.
-    Afisarea ar trebui sa contina toate informatiile comenzilor
-    """
-
+def listeaza_toate_comenzile_flask():
     datele = citeste_datele_din_baza_de_date()
     comenzi = datele.get('comenzi')
     if len(comenzi) > 0:
-        pprint(comenzi)
+        return 200, comenzi
     else:
-        print("Nu exista comenzi")
+        return 404, "Nu exista comenzi"
 
 
-def sterge_o_comanda():
-    sterge(input("\nIntroduceți identificatorul comenzii de sters: "),
-           "comenzi")
-
-
+def sterge_o_comanda_flask(order_id):
+    return sterge(order_id, "comenzi")

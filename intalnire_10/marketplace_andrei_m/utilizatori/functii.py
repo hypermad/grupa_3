@@ -17,6 +17,14 @@ from baza_de_date.functii import citeste_datele_din_baza_de_date, scrie_datele_i
 from common.utils import genereaza_id, sterge
 
 
+def listeaza_utilizator_flask(id_utilizator):
+    datele = citeste_datele_din_baza_de_date()
+    if datele["utilizatori"].get(id_utilizator):
+        return 200, datele["utilizatori"].get(id_utilizator)
+    else:
+        return 404, f"Utilizator-ul {id_utilizator} nu se afla in baza de date"
+
+
 def adauga_un_utilizator():
     nume, email = "", ""
     while len(nume) < 1 or len(nume) > 50:
@@ -73,9 +81,9 @@ def listeaza_toti_utilizatorii_flask():
     datele = citeste_datele_din_baza_de_date()
     utilizatori = datele.get('utilizatori')
     if len(utilizatori) > 0:
-        return utilizatori
+        return 200, utilizatori
     else:
-        return "Nu exista utilizatori"
+        return 404, "Nu exista utilizatori"
 
 
 def sterge_un_utilizator():

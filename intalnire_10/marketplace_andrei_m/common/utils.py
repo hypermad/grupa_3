@@ -14,8 +14,6 @@ def sterge(identificator_de_sters, key):
     if datele[key].get(identificator_de_sters):
         datele[key].pop(identificator_de_sters)
         scrie_datele_in_baza_de_date(datele)
-        return 200, f"User: {identificator_de_sters} has been successfully deleted"
-        # return Response(status=200, response=f"User: {identificator_de_sters} has been successfully deleted") # a doua varianta
+        return 200, f"Item: {identificator_de_sters} has been successfully deleted"
     else:
-        return 404, f"User: {identificator_de_sters} does not exist in the database"
-        # return Response(status=404, response=f"User: {identificator_de_sters} does not exist in the database") # a doua varianta
+        return 404, f"Item: {identificator_de_sters} does not exist in the database"
