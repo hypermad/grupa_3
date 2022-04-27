@@ -1,13 +1,15 @@
 import json
 
 from flask import Flask, Response, request
-from utilizatori.functii import (listeaza_utilizator_flask, adauga_un_utilizator_flask,
+from utilizatori.functii import (listeaza_utilizator_flask, adauga_un_utilizator_flask, adauga_utilizator_in_sql_db,
                                  listeaza_toti_utilizatorii_flask,
                                  sterge_un_utilizator_flask)
 from comenzi.functii import (listeaza_comanda_flask, adauga_o_comanda_flask, listeaza_toate_comenzile_flask,
                              sterge_o_comanda_flask)
 from produse.functii import (listeaza_produs_flask, adauga_un_produs_flask, listeaza_toate_produsele_flask,
                              sterge_un_produs_flask)
+
+from baza_de_date.sql import SQLiteDatabaseConnection
 
 app = Flask("Marketplace API")
 
@@ -36,7 +38,7 @@ def put_user():
     user_name = request_body.get("user_name")
     email_address = request_body.get("email_address")
     validate_request_body(user_name, email_address)
-    id_utilizator = adauga_un_utilizator_flask(user_name, email_address)
+    id_utilizator = adauga_utilizator_in_sql_db(request_body)
     return Response(status=200, response=json.dumps({"message": f"User: {id_utilizator} has been successfully added"}))
 
 
@@ -67,13 +69,13 @@ def list_users():
 
 
 @app.route("/list_products", methods=["GET"])
-def list_users():
+def list_products():
     status, message = listeaza_toate_produsele_flask()
     return Response(status=status, response=json.dumps(message))
 
 
 @app.route("/list_orders", methods=["GET"])
-def list_users():
+def list_orders():
     status, message = listeaza_toate_comenzile_flask()
     return Response(status=status, response=json.dumps(message))
 
@@ -85,13 +87,13 @@ def delete_user(user_id):
 
 
 @app.route("/delete_product/<string:product_id>", methods=["DELETE"])
-def delete_user(product_id):
+def delete_product(product_id):
     status, message = sterge_un_produs_flask(product_id)
     return Response(status=status, response=json.dumps({"message": message}))
 
 
 @app.route("/delete_order/<string:order_id>", methods=["DELETE"])
-def delete_user(order_id):
+def delete_order(order_id):
     status, message = sterge_o_comanda_flask(order_id)
     return Response(status=status, response=json.dumps({"message": message}))
 
@@ -105,4 +107,7 @@ def validate_request_body(name, second_parameter):
 
 
 if __name__ == "__main__":
+    db = SQLiteDatabaseConnection()
+    with db:
+        db.create_tables_if_not_exists()
     app.run()
