@@ -5,7 +5,7 @@ from baza_de_date import Base
 from baza_de_date.sqlalchemy_serializer import SQLAlchemySerializer
 
 
-class UsersDBModel(Base, SQLAlchemySerializer):
+class UsersSQLDBModel(Base, SQLAlchemySerializer):
     __tablename__ = f'users'
 
     id = Column(String, primary_key=True)
@@ -14,7 +14,7 @@ class UsersDBModel(Base, SQLAlchemySerializer):
     data_inregistrare = Column(String)
 
     def __init__(self, **fields):
-        self.id = fields.get("id", None)
+        self.id = fields.get("id_utilizator", None)
         self.user_name = fields["user_name"]
         self.email_address = fields["email_address"]
         self.data_inregistrare = fields.get("data_inregistrare", None)

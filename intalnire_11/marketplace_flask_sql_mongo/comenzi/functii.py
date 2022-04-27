@@ -24,13 +24,13 @@ def listeaza_comanda_flask(id_comanda):
         return 404, f"Comanda {id_comanda} nu se afla in baza de date"
 
 
-def adauga_o_comanda_flask(order_name, order_quantity):
-    id_comanda = genereaza_id({order_name: order_quantity})
+def adauga_o_comanda_flask(request_body):
+    id_comanda = genereaza_id({request_body["order_name"]: request_body["order_quantity"]})
     data_inregistrare = datetime.now(tz=timezone(country_timezones.get("RO")[0]))
     datele = citeste_datele_din_baza_de_date()
     datele["comenzi"][id_comanda] = {
-        "order_name": order_name,
-        "order_quantity": order_quantity,
+        "order_name": request_body["order_name"],
+        "order_quantity": request_body["order_quantity"],
         "data_inregistrare": data_inregistrare.isoformat()
     }
     scrie_datele_in_baza_de_date(datele)

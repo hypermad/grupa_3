@@ -24,13 +24,13 @@ def listeaza_produs_flask(id_produs):
         return 404, f"Produsul {id_produs} nu se afla in baza de date"
 
 
-def adauga_un_produs_flask(order_name, order_quantity):
-    id_produs = genereaza_id({order_name: order_quantity})
+def adauga_un_produs_flask(request_body):
+    id_produs = genereaza_id({request_body["order_name"]: request_body["order_quantity"]})
     data_inregistrare = datetime.now(tz=timezone(country_timezones.get("RO")[0]))
     datele = citeste_datele_din_baza_de_date()
     datele["produse"][id_produs] = {
-        "nume_produs": order_name,
-        "pret": order_quantity,
+        "nume_produs": request_body["order_name"],
+        "pret": request_body["order_quantity"],
         "data_inregistrare": data_inregistrare.isoformat()
     }
     scrie_datele_in_baza_de_date(datele)
