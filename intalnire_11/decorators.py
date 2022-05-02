@@ -7,8 +7,8 @@ def decodator_function(original_function):
         return original_function(*args, **kwargs)
 
     return wrapper_function
-#
-#
+
+
 @decodator_function
 def afisare():
     print("Functia a rulat")
