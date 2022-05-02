@@ -1,5 +1,6 @@
-import sqlalchemy
 from functools import wraps
+
+import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import SQLAlchemyError

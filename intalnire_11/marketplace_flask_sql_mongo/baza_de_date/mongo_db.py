@@ -13,7 +13,6 @@ class MongoDB:
     collection = db["my_itf_collection"]
 
     def create_user(self, user_model: UsersMongoDBModel):
-        print(user_model.__dict__)
         self.collection.insert_one(user_model.__dict__)
         return user_model._id
 

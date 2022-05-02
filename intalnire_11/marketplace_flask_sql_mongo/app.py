@@ -23,7 +23,11 @@ def put_user():
     request_body = json.loads(request.data)
     user_name = request_body.get("user_name")
     email_address = request_body.get("email_address")
-    validate_request_body(user_name, email_address)
+    if not user_name or not email_address:
+        return Response(status=500, response=json.dumps({"message": f"{user_name} or {email_address} is missing"}))
+    if len(user_name) < 1 or len(user_name) > 50:
+        return Response(status=500, response=json.dumps(
+            {"message": f"{user_name} must be longer than 1 character and less than 50 characters"}))
     status, message = adauga_un_utilizator_flask(request_body)
     return Response(status=status, response=json.dumps(message))
 

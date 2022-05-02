@@ -10,8 +10,6 @@ app = Flask("Marketplace API")
 @app.route("/get_user/<string:user_id>", methods=["GET"])
 def get_user(user_id):
     status, message = listeaza_utilizator_flask_mongo(user_id)
-    print(type(message))
-    print(message)
     return Response(status=status, response=json.dumps(message))
 
 
