@@ -36,6 +36,25 @@ class File(object):
 
 
 with File('demo.txt', 'w') as opened_file:
-    opened_file.write('Hola!')
-    # opened_file.ceva_ce_nu_este_definit('Hola!')
+    # opened_file.write('Hola!')
+    opened_file.ceva_ce_nu_este_definit('Hola!')
 
+
+from contextlib import contextmanager
+
+"""
+https://docs.python.org/3/library/contextlib.html
+"""
+
+
+@contextmanager
+def open_file_custom(name):
+    f = open(name, 'w')
+    try:
+        yield f
+    finally:
+        f.close()
+
+
+with open_file_custom('some_file_custom.txt') as f:
+    f.write('hola!')
