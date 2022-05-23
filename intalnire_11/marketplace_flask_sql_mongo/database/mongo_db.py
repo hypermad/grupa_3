@@ -4,7 +4,7 @@ from pathlib import Path
 import os
 # with open(Path(os.path.dirname(os.path.abspath(__file__)), "db_pwd_mongo.txt"), "r") as password_file:
     # connection_url = f"mongodb+srv://test_user:{parse.quote_plus(password_file.readline())}@itf.x5m6f.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
-connection_url = f"mongodb+srv://andrei:andrei@itf.x5m6f.mongodb.net/?retryWrites=true&w=majority"
+connection_url = f"mongodb+srv://<user>:<password>@itf.x5m6f.mongodb.net/?retryWrites=true&w=majority"
 # print(connection_url)
 
 class MongoDB:
