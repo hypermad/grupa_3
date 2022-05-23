@@ -1,6 +1,6 @@
-from baza_de_date.sql import SQLiteDatabaseConnection
+from database.sql import SQLiteDatabaseConnection
 from exceptions import UserAlreadyExists
-from baza_de_date.sql_models.users_sql_db_model import UsersSQLDBModel
+from database.sql_models.users_sql_db_model import UsersSQLDBModel
 
 
 def adauga_utilizator_in_sql_db(user_dict):

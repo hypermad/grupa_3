@@ -12,7 +12,7 @@ from datetime import datetime
 
 from pytz import country_timezones, timezone
 
-from baza_de_date.functii import citeste_datele_din_baza_de_date, scrie_datele_in_baza_de_date
+from database.functii import citeste_datele_din_baza_de_date, scrie_datele_in_baza_de_date
 from common.utils import genereaza_id, sterge
 
 

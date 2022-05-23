@@ -1,6 +1,6 @@
 import hashlib
 import json
-from baza_de_date.functii import citeste_datele_din_baza_de_date, scrie_datele_in_baza_de_date
+from database.functii import citeste_datele_din_baza_de_date, scrie_datele_in_baza_de_date
 from flask import Response
 
 def genereaza_id(detalii_comanda):

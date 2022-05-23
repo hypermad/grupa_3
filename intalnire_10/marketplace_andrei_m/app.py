@@ -9,7 +9,7 @@ from comenzi.functii import (listeaza_comanda_flask, adauga_o_comanda_flask, lis
 from produse.functii import (listeaza_produs_flask, adauga_un_produs_flask, listeaza_toate_produsele_flask,
                              sterge_un_produs_flask)
 
-from baza_de_date.sql import SQLiteDatabaseConnection
+from database.sql import SQLiteDatabaseConnection
 
 app = Flask("Marketplace API")
 

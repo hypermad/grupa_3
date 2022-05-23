@@ -4,11 +4,9 @@ import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import SQLAlchemyError
-
-from baza_de_date import logger, Base
-from baza_de_date.sql_models.users_sql_db_model import UsersSQLDBModel
-from baza_de_date.sql_models.products_sql_db_model import ProductsSQLDBModel
-from baza_de_date.sql_models.orders_sql_db_model import OrdersSQLDBModel
+from database.sqlalchemy_serializer import SQLAlchemySerializer
+from database import logger, Base
+from database.database_models.sql_models import UsersSQLDBModel, ProductsSQLDBModel, OrdersSQLDBModel
 
 
 def check_session():
@@ -60,25 +58,24 @@ class SQLiteDatabaseConnection:
             raise
 
     @check_session()
-    def create_user(self, user_model: UsersSQLDBModel):
-        self.session.add(user_model)
-        return user_model.id
+    def get_item(self, item_id, item_model):
+        return self.session.query(item_model).filter(item_model.id == item_id).one_or_none().serialize()
 
     @check_session()
-    def get_user_by_id(self, user_id):
-        return self.session.query(UsersSQLDBModel).filter(UsersSQLDBModel.id == user_id).one_or_none()
+    def create_item(self, item_model):
+        self.session.add(item_model)
 
     @check_session()
     def get_user_by_email(self, email):
         return self.session.query(UsersSQLDBModel).filter(UsersSQLDBModel.email_address == email).one_or_none()
 
     @check_session()
-    def list_all_users(self):
-        return self.session.query(UsersSQLDBModel).all()
+    def list_items(self, item_model, item_type):
+        return item_model.serialize_list(self.session.query(item_model).all())
 
     @check_session()
-    def delete_user_by_id(self, user_id):
-        deleted_rows = self.session.query(UsersSQLDBModel).filter(UsersSQLDBModel.id == user_id).delete()
+    def delete_item(self, user_id, item_model):
+        deleted_rows = self.session.query(item_model).filter(item_model.id == user_id).delete()
         return deleted_rows
 
     def __exit__(self, exc_type, exc_value, traceback):

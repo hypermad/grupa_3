@@ -128,4 +128,4 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-intalnire_11/marketplace_flask_sql_mongo/baza_de_date/db_pwd_mongo.txt
+intalnire_11/marketplace_flask_sql_mongo/database/db_pwd_mongo.txt
