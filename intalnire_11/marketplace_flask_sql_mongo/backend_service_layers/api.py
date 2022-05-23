@@ -1,15 +1,8 @@
 import json
 from functools import wraps
 
-from flask import Response
 from backend_service_layers.service import ItemService
 from backend_service_layers.exceptions import UserAlreadyExists, ResourceNotFound
-
-CONTENT_TYPE = "application/json"
-
-
-def app_response(api_response):
-    return Response(response=api_response['body'], status=api_response['status_code'], content_type=CONTENT_TYPE)
 
 
 def response(message, status_code):

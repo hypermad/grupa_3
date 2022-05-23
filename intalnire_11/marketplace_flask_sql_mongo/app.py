@@ -1,10 +1,13 @@
-import json
-
 from flask import Flask, Response
-from backend_service_layers.api import app_response
 from database.sql import SQLiteDatabaseConnection
 from backend_service_layers.api import ItemApi
+
 app = Flask("Marketplace API")
+CONTENT_TYPE = "application/json"
+
+
+def app_response(api_response):
+    return Response(response=api_response['body'], status=api_response['status_code'], content_type=CONTENT_TYPE)
 
 
 @app.route("/get_item/<string:storage_type>/<string:item_type>/<string:item_id>", methods=["GET"])
@@ -18,6 +21,7 @@ def put_item(storage_type, item_type):
     response = ItemApi(storage_type, item_type).create_item()
     return app_response(response)
 
+
 @app.route("/list_items/<string:storage_type>/<string:item_type>", methods=["GET"])
 def list_items(storage_type, item_type):
     response = ItemApi(storage_type, item_type).list_items()
@@ -28,14 +32,6 @@ def list_items(storage_type, item_type):
 def delete_item(storage_type, item_type, item_id):
     response = ItemApi(storage_type, item_type).delete_item(item_id)
     return app_response(response)
-
-
-def validate_request_body(name, second_parameter):
-    if not name or not second_parameter:
-        return Response(status=500, response=json.dumps({"message": f"{name} or {second_parameter} is missing"}))
-    if len(name) < 1 or len(name) > 50:
-        return Response(status=500, response=json.dumps(
-            {"message": f"{name} must be longer than 1 character and less than 50 characters"}))
 
 
 if __name__ == "__main__":

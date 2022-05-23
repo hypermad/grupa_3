@@ -21,17 +21,17 @@ class OrdersMongoDBModel:
         self._id = fields.get("order_id", None)
         self.order_name = fields["order_name"]
         self.order_quantity = fields["order_quantity"]
-        self.timestamp = fields.get("timestamp")
+        self.timestamp = fields.get("timestamp", None)
 
 
 class ProductsMongoDBModel:
     _id = None
-    product = None
-    price = None
+    product_name = None
+    product_price = None
     timestamp = None
 
     def __init__(self, **fields):
         self._id = fields.get("product_id")
-        self.product = fields["product_name"]
-        self.price = fields["price"]
+        self.product_name = fields["product_name"]
+        self.product_price = fields["product_price"]
         self.timestamp = fields.get("timestamp", None)
